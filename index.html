@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" 
+          content="width=device-width,
+                   initial-scale=1.0" />
+    <title>GPE Compliance Crossword Challenge</title>
+	<style>
+	
+	/* style.css */
+@import url(
+'https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;800&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+}
+
+input[type="text"] {
+	text-transform: uppercase;
+}
+
+.game-container {
+    padding: 10px;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    align-items: center;
+	flex-direction: column;
+}
+
+.puzzle-grid {
+    display: grid;
+    grid-template-rows: repeat(11, 80px);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(11, 80px);
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+
+.cell {
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border: 1px solid green ;
+}
+
+.inactive {
+    background-color: green ;
+}
+
+.green-background {
+	background-color: #abebc6 ;
+}
+
+.centered-text {
+	font-size: 0.8em;
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.winmessage {
+	font-size: 1em;
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+	color: red;
+	font-weight: bold;
+}
+
+h1 {
+    text-align: center;
+    color: green;
+    font-size: 2.2rem;
+	width: 90%;
+}
+
+.number {
+    position: relative;
+    font-weight: 300;
+    color: #000;
+    bottom: 80px;
+    font-size: 1.2rem;
+    left: 3px;
+    z-index: 10;
+}
+
+input:focus {
+    outline: none;
+    background-color: #bddebe;
+    width: 78px;
+    height: 78px;
+}
+
+input {
+    display: block;
+    position: relative;
+    font-size: 3rem;
+    text-align: center;
+    height: 78px;
+    width: 78px;
+    background-color: transparent;
+    border: none;
+    z-index: 1;
+}
+
+.clues {
+    max-width: 80%;
+   
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: green;
+    text-align: center;
+}
+
+#clues-list {
+    line-height: 2.5rem;
+    font-size: 1rem;
+    padding: 10px;
+
+}
+
+#clues-list li {
+   gap: 20px;
+    padding: 0;
+    display: flex;
+    text-align: center;
+    list-style-position: inside;
+    justify-content: space-between;
+    align-items:center ;
+}
+
+button {
+    display: block;
+    padding: 5px;
+    background-color: green;
+    color: #fff;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    border: 2px solid transparent;
+}
+
+.h1,.h2,.h3,.h4,.h5,.h6,.h7,.h8,.h9,.h10,.h11 {
+   
+    visibility: hidden;
+    color: green;
+
+}
+
+button:hover {
+    background-color: #fff;
+    border: 2px solid green;
+    color: green;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+table {
+  font-family: 'Poppins', sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  line-height: 1rem;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
+
+@media screen and (max-width: 980px) {
+    .game-container {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 10px;
+        gap: 30px;
+    }
+
+    .puzzle-grid {
+        display: grid;
+        grid-template-rows: repeat(11, 58px);
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: repeat(11, 58px);
+    }
+
+    .cell {
+        width: 58px;
+        height: 58px;
+    }
+
+    input {
+        width: 56px;
+        height: 56px;
+        font-size: 2rem;
+		border-radius: 0;
+    }
+
+    input:focus {
+        height: 56px;
+        width: 56px;
+    }
+
+    .number {
+        bottom: 60px;
+        font-size: 1rem;
+    }
+
+    .clues {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .game-container {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 10px;
+        gap: 30px;
+    }
+
+    .puzzle-grid {
+        display: grid;
+        grid-template-rows: repeat(11, 38px);
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: repeat(11, 38px);
+    }
+
+    .cell {
+        width: 38px;
+        height: 38px;
+    }
+
+    ol {
+        line-height: 1rem;
+        font-size: 10px;
+    }
+
+    input {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    input:focus {
+        height: 36px;
+        width: 36px;
+    }
+
+    .number {
+        bottom: 45px;
+        font-size: .6rem;
+		left: 3px;
+    }
+
+    .clues {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 428px) {
+    .game-container {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 10px;
+        gap: 30px;
+    }
+
+    .puzzle-grid {
+        display: grid;
+        grid-template-rows: repeat(11, 34px);
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: repeat(11, 34px);
+    }
+
+    .cell {
+        width: 34px;
+        height: 34px;
+    }
+
+    ol {
+        line-height: 1rem;
+        font-size: 10px;
+    }
+
+    input {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    input:focus {
+        height: 32px;
+        width: 32px;
+    }
+
+    .number {
+        bottom: 43px;
+        font-size: .4rem;
+		left: 2px;
+    }
+
+    .clues {
+        max-width: 100%;
+    }
+}
+
+
+
+@media screen and (max-width: 380px) {
+    .game-container {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 10px;
+        gap: 30px;
+    }
+
+    .puzzle-grid {
+        display: grid;
+        grid-template-rows: repeat(11, 30px);
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: repeat(11, 30px);
+    }
+
+    .cell {
+        width: 30px;
+        height: 30px;
+    }
+
+    ol {
+        line-height: 1rem;
+        font-size: 10px;
+    }
+
+    input {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+
+    input:focus {
+        height: 28px;
+        width: 28px;
+    }
+
+    .number {
+        bottom: 39px;
+        font-size: .4rem;
+		left: 2px;
+    }
+
+    .clues {
+        max-width: 100%;
+    }
+}
+
+	
+	</style>
+	
+</head>
+
+<body>
+	<br><br>
+	<h1 style="top: 2px;">Compliance Crossword Challenge!</h1>
+	<br>
+	
+	<b>Instructions</b>
+	<div class="centered-text">
+	Challenge yourself to the crossword puzzle below! We've thrown in some hints to help you get started. Enter the correct letter in each cell and watch them turn green. Once all the cells are green, bring your card to the crossword station to receive your stamp!
+	</div>
+	<br>
+	<div class="winmessage" id="message" style="display:none;">Congratulations! You have solved the puzzle!</div>
+    <div class="game-container">
+        <div class="puzzle-grid">
+			<div id="inputContainer">
+				<div class="row">
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" class="green-background" value="R" data-letter="r" maxlength="1" readonly /><span class="number">1</span></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+				</div>
+				<div class="row">
+					<div class="cell"><input type="text" class="green-background" value="B" data-letter="b" maxlength="1" readonly /><span class="number">2</span></div>
+					<div class="cell"><input type="text" data-letter="a" maxlength="1" /></div>
+					<div class="cell"><input type="text" data-letter="c" maxlength="1" /></div>
+					<div class="cell"><input type="text" data-letter="k" maxlength="1" /></div>
+					<div class="cell"><input type="text" data-letter="d" maxlength="1" /></div>
+					<div class="cell"><input type="text" data-letter="a" maxlength="1" /></div>
+					<div class="cell"><input type="text" data-letter="t" maxlength="1" /></div>
+					<div class="cell"><input type="text" data-letter="e" maxlength="1" /></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+				</div>
+				<div class="row">
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="m" maxlength="1"  /></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+				</div>
+				<div class="row">
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="e" maxlength="1"  /></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" class="green-background" value="B" data-letter="b" maxlength="1" readonly /><span class="number">3</span></div>
+				</div>
+				<div class="row">
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="d" maxlength="1"  /></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="r" maxlength="1"  /></div>
+				</div>
+				<div class="row">
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="d" maxlength="1"  /><span class="number">4</span></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="i" maxlength="1"  /></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="i" maxlength="1"  /></div>
+				</div>
+				<div class="row">
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="c" maxlength="1"  /><span class="number">5</span></div>
+					<div class="cell"><input type="text" data-letter="l" maxlength="1"  /></div>
+					<div class="cell"><input type="text" data-letter="e" maxlength="1"  /></div>
+					<div class="cell"><input type="text" data-letter="a" maxlength="1"  /></div>
+					<div class="cell"><input type="text" data-letter="r" maxlength="1"  /></div>
+					<div class="cell"><input type="text" data-letter="a" maxlength="1"  /></div>
+					<div class="cell"><input type="text" data-letter="n" maxlength="1"  /></div>
+					<div class="cell"><input type="text" data-letter="c" maxlength="1"  /></div>
+					<div class="cell"><input type="text" data-letter="e" maxlength="1"  /></div>
+				</div>
+				<div class="row">
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="t" maxlength="1"  /></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="t" maxlength="1"  /></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="f" maxlength="1"  /></div>
+				</div>
+				<div class="row">
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="a" maxlength="1"  /></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="i" maxlength="1"  /></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="i" maxlength="1"  /></div>
+				</div>
+				<div class="row">
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="o" maxlength="1"  /></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="n" maxlength="1"  /></div>
+				</div>
+				<div class="row">
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="n" maxlength="1"  /></div>
+					<div class="cell inactive"></div>
+					<div class="cell inactive"></div>
+					<div class="cell"><input type="text" data-letter="g" maxlength="1"  /></div>
+				</div>
+			</div>
+        </div>
+		<br>
+        <div class="clues">
+            <h2>Clues</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Clue Number</th>
+                        <th>Clue Direction</th>
+                        <th>Clue Text</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Down</td>
+                        <td>To be performed when audit findings are identified</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Across</td>
+                        <td>Marking a document with a past date, a serious offense that can indicate fraud.</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Down</td>
+                        <td>Security Awareness B_______ - Part of vendor personnel onboarding, to also be conducted yearly</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Down</td>
+                        <td>Three types of risks: Project, CyberSecurity and ____ Security</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Across</td>
+                        <td>Security _________ - Part of vendor personnel onboarding</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+
+<script>
+	const inputContainer = document.getElementById('inputContainer');
+
+	inputContainer.addEventListener('input', function(event) {
+		if (event.target.tagName.toLowerCase() === 'input') {
+			const specificLetter = event.target.getAttribute('data-letter');
+			const value = event.target.value.toLowerCase();
+			const parentCell = event.target.parentElement;
+			if (value.includes(specificLetter)) {
+				event.target.classList.add('green-background');
+				parentCell.classList.add('green-background');
+			} else {
+				event.target.classList.remove('green-background');
+				parentCell.classList.remove('green-background');
+			}
+		}
+		checkAllGreen();
+	});
+	
+	
+	function checkAllGreen() {
+            const inputs = inputContainer.querySelectorAll('input');
+            const allGreen = Array.from(inputs).every(input => input.classList.contains('green-background'));
+            if (allGreen) {
+                message.style.display = 'block';
+				changeInactiveColors('gold','gold');
+            } else {
+                message.style.display = 'none';
+				changeInactiveColors('green','green');
+
+            }
+        }
+		
+		
+	function changeInactiveColors(backgroundColor, borderColor) {
+		const inactiveElements = document.querySelectorAll('.cell.inactive');
+		inactiveElements.forEach(element => {
+			element.style.backgroundColor = backgroundColor;
+			element.style.borderColor = borderColor;
+		});
+	}
+	
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
